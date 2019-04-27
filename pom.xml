@@ -4,8 +4,9 @@
     <groupId>mc.alk</groupId>
     <artifactId>ArenaPlunger</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.1.0</version>
+    <version>0.1.0</version>
     <name>ArenaPlunger</name>
+    <description>A hold the item gamemode for BattleArena!</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>

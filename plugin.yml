@@ -1,9 +1,9 @@
-name: ArenaPlunger
+name: ${project.name}
 main: mc.adambor.ArenaPlunger.ArenaPlungerPlugin
-version: 0.1.1
+version: ${project.version}
 author: adambor
 depend: [BattleArena]
-description: Version 0 of ArenaPlunger
+description: ${project.description}
 commands:
   ap:
     description: Arena Plunger
