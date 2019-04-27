@@ -38,12 +38,12 @@ public class AP_commandHandler extends CustomCommandExecutor {
 	}
 	@MCCommand(cmds={"setEffect"}, admin=true)
 	public static boolean setEffect(Player sender, String effect, Integer count){
-		if(Effect.getByName(effect)!=null){
-			Main.plugin.getConfig().set("plunger.effect.type", effect);
+		if(Effect.valueOf(effect.toUpperCase())!=null){
+			Main.plugin.getConfig().set("plunger.effect.type", effect.toUpperCase());
 			Main.plugin.getConfig().set("plunger.effect.count", count);
 			Main.plugin.saveConfig();
 			Main.plugin.reloadConfig();
-			return sendMessage(sender, "&2Plunger effect set to: "+effect+" and particles count to: "+count);
+			return sendMessage(sender, "&2Plunger effect set to: "+effect.toUpperCase()+" and particles count to: "+count);
 		} else {
 			return sendMessage(sender, "&cThis effect doesn't exist");
 		}

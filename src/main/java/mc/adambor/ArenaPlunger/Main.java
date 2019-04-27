@@ -28,7 +28,7 @@ public class Main extends JavaPlugin {
 		saveDefaultConfig();
         FileConfiguration conf = plugin.getConfig();
         ArenaPlunger.material = Material.valueOf(conf.getString("plunger.material", "TORCH").toUpperCase());
-		ArenaPlunger.effect = Effect.getByName(conf.getString("plunger.effect.type", "note"));
+		ArenaPlunger.effect = Effect.valueOf(conf.getString("plunger.effect.type", "note").toUpperCase());
 		ArenaPlunger.maxdroppedtime = conf.getInt("plunger.timer", 30);
 		ArenaPlunger.pointsToWin = conf.getInt("scoreToWin", 100);
 		ArenaPlunger.count = conf.getInt("plunger.effect.count", 10);

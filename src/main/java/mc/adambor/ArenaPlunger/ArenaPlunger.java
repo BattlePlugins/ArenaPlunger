@@ -29,9 +29,9 @@ import mc.alk.arena.objects.messaging.MatchMessageHandler;
 import mc.alk.arena.objects.teams.ArenaTeam;
 import mc.alk.arena.objects.victoryconditions.VictoryCondition;
 import mc.alk.arena.serializers.Persist;
-import mc.alk.scoreboardapi.api.SEntry;
-import mc.alk.scoreboardapi.api.SObjective;
-import mc.alk.scoreboardapi.api.SScoreboard;
+import mc.alk.arena.alib.battlescoreboardapi.api.SEntry;
+import mc.alk.arena.alib.battlescoreboardapi.api.SObjective;
+import mc.alk.arena.alib.battlescoreboardapi.api.SScoreboard;
 
 public class ArenaPlunger extends Arena {
 	@Persist
