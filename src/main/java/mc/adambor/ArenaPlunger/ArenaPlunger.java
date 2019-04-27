@@ -1,7 +1,5 @@
 package mc.adambor.ArenaPlunger;
 
-import mc.adambor.ArenaPlunger.Victory;
-
 import java.util.Random;
 
 import org.bukkit.ChatColor;
@@ -34,12 +32,15 @@ import mc.alk.arena.alib.battlescoreboardapi.api.SObjective;
 import mc.alk.arena.alib.battlescoreboardapi.api.SScoreboard;
 
 public class ArenaPlunger extends Arena {
-    @Persist
+
+	@Persist
     Location plungerloc;
     Item plunger;
+
     static Material material;
     static Effect effect;
     static Integer count;
+
     MatchMessageHandler mmh;
     ItemStack plungeritem;
     BukkitTask timerid1;
@@ -48,12 +49,13 @@ public class ArenaPlunger extends Arena {
     SObjective objective;
     ArenaPlayer plungerholding;
     Random rand = new Random();
-    static Integer maxdroppedtime;
+    static int maxdroppedtime;
     Integer pltimer = maxdroppedtime;
     BukkitTask plungertimer;
     SEntry holdingentry;
     Victory scores;
-    static Integer pointsToWin = 100;
+
+    static int pointsToWin = 100;
     
     public void onOpen(){
         mmh = match.getMessageHandler();
@@ -61,6 +63,7 @@ public class ArenaPlunger extends Arena {
         scores = (Victory) (vc != null ? vc : new Victory(getMatch()));
         getMatch().addVictoryCondition(scores);
     }
+
     public void onStart(){
         scoreb = match.getScoreboard();
         objective = scores.scores;
@@ -81,7 +84,7 @@ public class ArenaPlunger extends Arena {
             @Override
             public void run() {
                 if(plungerholding != null){
-                    if(plungerholding.isOnline() == true){
+                    if(plungerholding.isOnline()){
                     if(scores.addScore(plungerholding.getTeam(), plungerholding) >= pointsToWin){
                         setWinner(plungerholding.getTeam());
                         onCancel();
@@ -92,21 +95,23 @@ public class ArenaPlunger extends Arena {
                     flames(plunger.getLocation().add(0,0.5D,0));
                 }
             }
-        }.runTaskTimer(Main.plugin, 0, 20L);
+        }.runTaskTimer(ArenaPlungerPlugin.getPlugin(), 0, 20L);
         timerid2 = new BukkitRunnable(){
             @Override
             public void run() {
                 updateCompassLocation();
             }
-        }.runTaskTimer(Main.plugin, 0, 20L);
+        }.runTaskTimer(ArenaPlungerPlugin.getPlugin(), 0, 20L);
     }
+
     public void flames(Location location) {
-        for(int x=0;x<count;x++){
+        for(int i = 0; i < count; i++){
             Location loc = location.clone();
             loc = loc.add(rand.nextDouble()-0.5, rand.nextDouble()-0.5, rand.nextDouble()-0.5);
             location.getWorld().playEffect(loc, effect, 10);
         }
     }
+
     @Override
     public void onCancel(){
         timerid1.cancel();
@@ -114,6 +119,7 @@ public class ArenaPlunger extends Arena {
         removePlunger();
         stopPlungerTimer();
     }
+
     @Override
     public void onComplete() {
         super.onComplete();
@@ -122,11 +128,13 @@ public class ArenaPlunger extends Arena {
         removePlunger();
         stopPlungerTimer();
     }
+
     public void removePlunger(){
         if(plunger != null){
             plunger.remove();
         }
     }
+
     public void updateCompassLocation(){
         Location loc = null;
         if(plunger != null){
@@ -142,12 +150,14 @@ public class ArenaPlunger extends Arena {
             }
         }
     }
+
     @ArenaEventHandler(needsPlayer=false)
     public void onPlace(BlockPlaceEvent e){
         if(e.getBlockPlaced().getType().equals(material)){
             e.setCancelled(true);
         }
     }
+
     @ArenaEventHandler
     public void onPickup(PlayerPickupItemEvent e){
         if(e.getItem().equals(plunger)){
@@ -158,6 +168,7 @@ public class ArenaPlunger extends Arena {
             stopPlungerTimer();
         }
     }
+
     @ArenaEventHandler
     public void onDrop(PlayerDropItemEvent e){
         ItemStack item = e.getItemDrop().getItemStack().clone();
@@ -172,6 +183,7 @@ public class ArenaPlunger extends Arena {
             match.sendMessage(mmh.getMessage("ArenaPlunger.plunger_dropped").replace("%p", e.getPlayer().getName()).replace("%t", BattleArena.toArenaPlayer(e.getPlayer()).getTeam().getDisplayName()));
         }
     }
+
     public void startPlungerTimer(){
         scoreb.setEntryDisplayName(holdingentry,ChatColor.ITALIC+""+ChatColor.GRAY+"dropped - "+maxdroppedtime);
         plungertimer = new BukkitRunnable(){
@@ -189,14 +201,16 @@ public class ArenaPlunger extends Arena {
                     stopPlungerTimer();
                 }
             }
-        }.runTaskTimer(Main.plugin, 20L, 20L);
+        }.runTaskTimer(ArenaPlungerPlugin.getPlugin(), 20L, 20L);
     }
+
     public void stopPlungerTimer(){
         if(plungertimer != null){
             plungertimer.cancel();
         }
         pltimer = maxdroppedtime;
     }
+
     @ArenaEventHandler
     public void onDeath(final PlayerDeathEvent e){
         if(e.getEntity().getInventory().contains(plungeritem)){
@@ -209,6 +223,7 @@ public class ArenaPlunger extends Arena {
             match.sendMessage(mmh.getMessage("ArenaPlunger.plunger_dropped").replace("%p", e.getEntity().getName()).replace("%t", BattleArena.toArenaPlayer(e.getEntity()).getTeam().getDisplayName()));
         }
     }
+
     @ArenaEventHandler(needsPlayer = false)
     public void itemDeath(EntityDamageByBlockEvent e){
         if(e.getEntity().equals(plunger)){
@@ -221,6 +236,7 @@ public class ArenaPlunger extends Arena {
             match.sendMessage(mmh.getMessage("ArenaPlunger.plunger_broken"));
         }
     }
+
     @ArenaEventHandler(needsPlayer = false)
     public void onDespawn(ItemDespawnEvent e){
         match.sendMessage("Item despawn");
@@ -228,6 +244,7 @@ public class ArenaPlunger extends Arena {
             e.setCancelled(true);
         }
     }
+
     public void setPlunger(Location location) {
         plungerloc = location;
     }

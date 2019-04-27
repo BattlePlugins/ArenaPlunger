@@ -1,5 +1,5 @@
 name: ArenaPlunger
-main: mc.adambor.ArenaPlunger.Main
+main: mc.adambor.ArenaPlunger.ArenaPlungerPlugin
 version: 0.1.1
 author: adambor
 depend: [BattleArena]

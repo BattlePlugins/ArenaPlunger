@@ -9,13 +9,15 @@ import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class Main extends JavaPlugin {
-    static Main plugin;
+public class ArenaPlungerPlugin extends JavaPlugin {
+
+	private static ArenaPlungerPlugin plugin;
+
     @Override
     public void onEnable(){
-        plugin = this;
+    	plugin = this;
         VictoryType.register(Victory.class, this);
-        BattleArena.registerCompetition(this, "ArenaPlunger", "ap", ArenaPlunger.class, new AP_commandHandler());
+        BattleArena.registerCompetition(this, "ArenaPlunger", "ap", ArenaPlunger.class, new PlungerExecutor(this));
         loadConfig();
         Log.info("[" + getName()+ "] v" + getDescription().getVersion()+ " enabled!");
     }
@@ -26,7 +28,7 @@ public class Main extends JavaPlugin {
     }
     public void loadConfig(){
         saveDefaultConfig();
-        FileConfiguration conf = plugin.getConfig();
+        FileConfiguration conf = getConfig();
         ArenaPlunger.material = Material.valueOf(conf.getString("plunger.material", "TORCH").toUpperCase());
         ArenaPlunger.effect = Effect.valueOf(conf.getString("plunger.effect.type", "note").toUpperCase());
         ArenaPlunger.maxdroppedtime = conf.getInt("plunger.timer", 30);
@@ -38,4 +40,8 @@ public class Main extends JavaPlugin {
         super.reloadConfig();
         loadConfig();
     }
+
+    public static ArenaPlungerPlugin getPlugin() {
+    	return plugin;
+	}
 }

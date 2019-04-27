@@ -24,7 +24,7 @@ import java.util.TreeMap;
 public class Victory extends VictoryCondition implements DefinesLeaderRanking{
 
     final ArenaObjective scores;
-    Integer capturesToWin;
+    int capturesToWin;
     MatchMessageHandler mmh;
 
     public Victory(Match match) {
@@ -38,6 +38,7 @@ public class Victory extends VictoryCondition implements DefinesLeaderRanking{
         /// set all points to 0 so they display in Scoreboard
         this.resetScores();
     }
+
     public void resetScores(){
         scores.setAllPoints(match, 1);
         scores.setAllPoints(match, 0);
